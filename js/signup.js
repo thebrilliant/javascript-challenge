@@ -4,5 +4,8 @@
 */
 
 document.addEventListener('DOMContentLoaded', function(){
-
+	
 });
+
+var option = document.createElement("OPTION");
+option.value = document.createElement();
