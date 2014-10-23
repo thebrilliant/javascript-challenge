@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', onReady);
 
 function onReady() {
 
+	var thisForm = document.getElementById("signup");
+	var cancelButton = document.getElementById("cancelButton");
+
 	var elem = document.getElementById("state");
 	for (var i = 0; i < usStates.length; i++) {
 		var opt = document.createElement("option");
@@ -17,14 +20,18 @@ function onReady() {
 		opt.appendChild(optText);
 		elem.appendChild(opt);
 	}
+
+	cancelButton.addEventListener('click', cancelForm)
 }
 
 
 var option = document.createElement("OPTION");
 option.value = document.createElement(states.code);
 
-document.addEventListener('onCancelButtonClick', function(){
-	alert('Are you sure you want to leave this page?');
+function cancelForm() {
+	var response = window.confirm('Are you sure you want to leave this page?');
 
-	window.loaction = "http://www.google.com";
-})
+	if (response) {
+		window.loaction = "http://www.google.com";
+	}
+}
