@@ -41,6 +41,13 @@ function cancelForm() {
 
 function onSubmit (event) {
 	// body...
+	var isVaild = validate(this);
+
+	if (!isVaild && event.preventDefault) {
+		event.preventDefault();
+	}
+
+	return isVaild;
 }
 
 function validate(form) {
