@@ -23,7 +23,7 @@ function onReady() {
 
 	occupation.addEventListener('change', occupationOptions(thisForm));
 	cancelButton.addEventListener('click', cancelForm);
-	thisForm.addEventListener('submit', onSubmit)
+	thisForm.addEventListener('submit', onSubmit);
 }
 
 function occupationOptions (form) {
@@ -34,9 +34,9 @@ function occupationOptions (form) {
 function cancelForm() {
 	var response = window.confirm('Are you sure you want to leave this page?');
 
-	if (response != 0) {
+	if (response) {
 		window.loaction = 'http://www.google.com';
-	}
+	};
 }
 
 function onSubmit (event) {
@@ -45,7 +45,7 @@ function onSubmit (event) {
 
 	if (!isVaild && event.preventDefault) {
 		event.preventDefault();
-	}
+	};
 
 	return isVaild;
 }
@@ -53,13 +53,40 @@ function onSubmit (event) {
 function validate(form) {
 	//
 	var necessaryFields = ['firstName', 'lastName', 'address1', 'city', 'state', 'zip', 'birthdate'];
-	necessaryFields.forEach(validateField, form);
+	return necessaryFields.forEach(validateField, form) && validateZip('zip') && validateBDay('birthdate');
 }
 
 function validateField (field) {
 	if (0 == this[field].value.trim().length) {
 		this[field].className = 'form-control invalid'
 		return false;
-	} 
+	};
+	return true;
+}
+
+function validateZip (zip) {
+	var zipRegExp = new RegExp('^\\d{5}$');
+
+	return zipRegExp.test(zip);
+}
+
+function validateBDay (bDay) {
+	// body...
+	var today = new Date();
+	var birthD = new Date(bDay);
+
+	if (today.getFullYear() - birthD.getFullYear <= 13) {
+		return false;
+	} else if (today.getFullYear() - birthD.getFullYear == 13) {
+		//
+		if (today.getMonth() > birthD.getMonth()) {
+			return true;
+		} else if (today.getMonth() < birthD.getMonth()) {
+			return false;
+		} else { //months are equal
+			return today.getDate() >= birthD.getDate();
+		};
+	};
+
 	return true;
 }
