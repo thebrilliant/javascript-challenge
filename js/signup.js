@@ -3,7 +3,7 @@
     This script will load the state select list and validate the form before submission
 */
 
-"use strict";
+'use strict';
 
 document.addEventListener('DOMContentLoaded', onReady);
 
@@ -21,26 +21,27 @@ function onReady() {
 		elem.appendChild(opt);
 	}
 
+
+	occupation.addEventListener('change', occupationOptions());
 	cancelButton.addEventListener('click', cancelForm);
-	occupation.addEventListener('change', occupationOptions(thisForm));
 	thisForm.addEventListener('submit', onSubmit);
 }
 
-function occupationOptions (form) {
+function occupationOptions () {
 	
-	form.getElementById("occupationOther").style.display() = inline;
+	document.getElementById("occupationOther").style.display = 'inline';
 }
 
 function cancelForm() {
 	var response = window.confirm('Are you sure you want to leave this page?');
 
 	if (response) {
-		window.loaction = 'http://www.google.com';
+		window.location.href = 'http://www.google.com';
 	};
 }
 
 function onSubmit (event) {
-	
+	console.log("submit click worked");
 	try {
 		var isVaild = validate(this);
 	} catch (exception) {
@@ -76,7 +77,6 @@ function validateZip (zip) {
 }
 
 function validateBDay (bDay) {
-	// body...
 	var today = new Date();
 	var birthD = new Date(bDay);
 
@@ -84,7 +84,6 @@ function validateBDay (bDay) {
 		document.getElementById('birthdateMessage').innerHTML = "You must be 13 years or older to sign up!";
 		return false;
 	} else if (today.getFullYear() - birthD.getFullYear == 13) {
-		//
 		if (today.getMonth() > birthD.getMonth()) {
 			return true;
 		} else if (today.getMonth() < birthD.getMonth()) {
