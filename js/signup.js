@@ -21,14 +21,14 @@ function onReady() {
 		elem.appendChild(opt);
 	}
 
-	occupation.addEventListener('change', occupationOptions(thisForm));
 	cancelButton.addEventListener('click', cancelForm);
+	occupation.addEventListener('change', occupationOptions(thisForm));
 	thisForm.addEventListener('submit', onSubmit);
 }
 
 function occupationOptions (form) {
 	
-	//form.getElementById("occupationOther").style.display = inline;
+	form.getElementById("occupationOther").style.display() = inline;
 }
 
 function cancelForm() {
@@ -40,8 +40,13 @@ function cancelForm() {
 }
 
 function onSubmit (event) {
-	// body...
-	var isVaild = validate(this);
+	
+	try {
+		var isVaild = validate(this);
+	} catch (exception) {
+		console.log(exception);
+		isVaild = false;
+	}
 
 	if (!isVaild && event.preventDefault) {
 		event.preventDefault();
@@ -51,7 +56,7 @@ function onSubmit (event) {
 }
 
 function validate(form) {
-	//
+	
 	var necessaryFields = ['firstName', 'lastName', 'address1', 'city', 'state', 'zip', 'birthdate'];
 	return necessaryFields.forEach(validateField, form) && validateZip('zip') && validateBDay('birthdate');
 }
@@ -76,15 +81,20 @@ function validateBDay (bDay) {
 	var birthD = new Date(bDay);
 
 	if (today.getFullYear() - birthD.getFullYear <= 13) {
+		document.getElementById('birthdateMessage').innerHTML = "You must be 13 years or older to sign up!";
 		return false;
 	} else if (today.getFullYear() - birthD.getFullYear == 13) {
 		//
 		if (today.getMonth() > birthD.getMonth()) {
 			return true;
 		} else if (today.getMonth() < birthD.getMonth()) {
+			document.getElementById('birthdateMessage').innerHTML = "You must be 13 years or older to sign up!";
 			return false;
 		} else { //months are equal
-			return today.getDate() >= birthD.getDate();
+			if (today.getDate() > birthD.getDate()) {
+				document.getElementById('birthdateMessage').innerHTML = "You must be 13 years or older to sign up!";
+				return false;
+			};
 		};
 	};
 
